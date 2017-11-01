@@ -9,7 +9,7 @@ class CodeSharer {
   public void share(String text) {
     Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
     sharingIntent.setType("text/plain");
-    String shareBody = StringUtil.codeForString(GhostRecorder.getString());
+    String shareBody = StringUtil.codeForString(text);
 
     DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy_HH:mm:ss");
     Date date = new Date();

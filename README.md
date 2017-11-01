@@ -62,3 +62,6 @@ To create a Autonomous opmode from the recorded data:
         
       }
     }
+    
+    
+If you cant figure this out email me (ethan.hulinsky@gmail.com) or snapchat me (ehulinsky) or send me a smoke signal or carrier pigeon or sneak into my house and create a text file on the desktop of my computer.

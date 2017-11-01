@@ -3,13 +3,12 @@ class CodeSharer {
   
   public CodeSharer(Context cxt) 
   {
-    context=context;
+    context=ctx;
   }
   
   public void share(String text) {
     Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
     sharingIntent.setType("text/plain");
-    String shareBody = codeForString(text);
 
     DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy_HH:mm:ss");
     Date date = new Date();

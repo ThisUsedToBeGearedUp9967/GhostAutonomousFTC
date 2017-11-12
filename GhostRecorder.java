@@ -1,46 +1,76 @@
+
 public class GhostRecorder {
   private String instructions="";
   private int updatesSinceValueChanged=0;
-  private ControllerValues values=new ControllerValues();
+  private StickValues stickValues=new StickValues();
+  private ButtonValues buttonValues=new ButtonValues();
   
   public GhostRecorder() {
   }
   
-  public void recordLStickY(double lsticky) {
-    values.setStickValue(ControllerValues.leftStickY,lsticky);
+  public void recordLeftStickY(double lsticky) {
+    stickValues.setValue(StickValues.leftStickY,lsticky);
   }
     
-  public void recordRStickY(double rsticky) {
-    values.setStickValue(ControllerValues.rightStickY,rsticky);
+  public void recordRightStickY(double rsticky) {
+    stickValues.setValue(StickValues.rightStickY,rsticky);
   }
   
-  public void recordLStickX(double lstickx) {
-    values.setStickValue(ControllerValues.leftStickX,lstickx);
+  public void recordLeftStickX(double lstickx) {
+    stickValues.setValue(StickValues.leftStickX,lstickx);
   }
     
-  public void recordRStickX(double rstickx) {
-    values.setStickValue(ControllerValues.rightStickX,rstickx);
+  public void recordRightStickX(double rstickx) {
+    stickValues.setValue(StickValues.rightStickX,rstickx);
+  }
+  
+  public void recordButtonX(boolean val) {
+    buttonValues.setValue(ButtonValues.buttonX,val);
+  }
+  
+  public void recordButtonY(boolean val) {
+    buttonValues.setValue(ButtonValues.buttonY,val);
+  }
+  public void recordButtonA(boolean val) {
+    buttonValues.setValue(ButtonValues.buttonA,val);
+  }
+  public void recordButtonB(boolean val) {
+    buttonValues.setValue(ButtonValues.buttonB,val);
+  }
+  public void recordDpadUp(boolean val) {
+    buttonValues.setValue(ButtonValues.dpadUp,val);
+  }
+  public void recordDpadDown(boolean val) {
+    buttonValues.setValue(ButtonValues.dpadDown,val);
+  }
+  public void recordDpadLeft(boolean val) {
+    buttonValues.setValue(ButtonValues.dpadLeft,val);
+  }
+  public void recordDpadRight(boolean val) {
+    buttonValues.setValue(ButtonValues.dpadRight,val);
+  }
+  
+  public String getStringOfChangedVals(ControllerValues vals)
+  {
+    String line="";
+    @SuppressWarnings("unchecked")
+    ArrayList<String> syms=vals.getSymbolsOfChanged();
+    for(int i=0;i<syms.size();i++)
+    {
+      line+=syms.get(i)+":"+vals.getValue(syms.get(i));
+      line+=" ";
+    }
+    return line;
   }
   
   public void update() {
     
-    boolean foundChange=false;
-    String line="";
-    ArrayList<String> syms=values.getSymbolsOfChanged();
-    for(int i=0;i<syms.size();i++)
-    {
-      line+=syms.get(i)+":"+values.getStickValue(syms.get(i));
-      if(i<syms.size()-1)
-      {
-        line+=" ";
-      }
-    }
-    
-    if(syms.size()>0)
+    String line=getStringOfChangedVals(stickValues)+getStringOfChangedVals(buttonValues);
+    if(!line.equals(""))
     {
       if(updatesSinceValueChanged>0)
       {
-        instructions+=" "+String.valueOf(updatesSinceValueChanged)+" ";
+        instructions+=String.valueOf(updatesSinceValueChanged)+" ";
       }
       instructions+=line;
       updatesSinceValueChanged=0;
@@ -52,7 +82,8 @@ public class GhostRecorder {
     
   
   public String getString() {
-    return instructions+" "+String.valueOf(updatesSinceValueChanged);
+    return instructions+String.valueOf(updatesSinceValueChanged);
   }
 }
+
 

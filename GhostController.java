@@ -1,5 +1,7 @@
+
 public class GhostController {
-  ControllerValues values=new ControllerValues();
+  StickValues stickValues=new StickValues();
+  ButtonValues buttonValues=new ButtonValues();
   private String instructions;
   private int pos=0;
   private int waitFor=0;
@@ -71,7 +73,19 @@ public class GhostController {
     
         if(foundColon)
         {
-          values.setStickValue(beforeColon,Double.parseDouble(afterColon));
+          if(afterColon.equals("true"))
+          {
+            buttonValues.setValue(beforeColon,true);
+          }
+          else if(afterColon.equals("false"))
+          {
+            buttonValues.setValue(beforeColon,false);
+          }
+          else
+          {
+            stickValues.setValue(beforeColon,Double.parseDouble(afterColon));
+          }
+          
           update();
         }
         else
@@ -94,10 +108,8 @@ public class GhostController {
       }
       else
       {
-      values.setStickValue(ControllerValues.leftStickX,0);
-      values.setStickValue(ControllerValues.leftStickY,0);
-      values.setStickValue(ControllerValues.rightStickX,0);
-      values.setStickValue(ControllerValues.rightStickY,0);
+        buttonValues.reset();
+        stickValues.reset();
       }
     }
     
@@ -105,20 +117,52 @@ public class GhostController {
   
 
   
-  public double getLStickY() {
-    return values.getStickValue(ControllerValues.leftStickY);
+  public double leftStickY() {
+    return stickValues.getValue(StickValues.leftStickY);
   }
   
-  public double getLStickX() {
-    return values.getStickValue(ControllerValues.leftStickX);
+  public double leftStickX() {
+    return stickValues.getValue(StickValues.leftStickX);
   }
   
-  public double getRStickY() {
-    return values.getStickValue(ControllerValues.rightStickY);
+  public double rightStickY() {
+    return stickValues.getValue(StickValues.rightStickY);
   }
   
-  public double getRStickX() {
-    return values.getStickValue(ControllerValues.rightStickX);
+  public double rightStickX() {
+    return stickValues.getValue(StickValues.rightStickX);
+  }
+  
+  public boolean buttonA() {
+    return buttonValues.getValue(ButtonValues.buttonA);
+  }
+  
+  public boolean buttonB() {
+    return buttonValues.getValue(ButtonValues.buttonB);
+  }
+  
+  public boolean buttonX() {
+    return buttonValues.getValue(ButtonValues.buttonX);
+  }
+  
+  public boolean buttonY() {
+    return buttonValues.getValue(ButtonValues.buttonY);
+  }
+  
+  public boolean dpadUp() {
+    return buttonValues.getValue(ButtonValues.dpadUp);
+  }
+  
+  public boolean dpadDown() {
+    return buttonValues.getValue(ButtonValues.dpadDown);
+  }
+  
+  public boolean dpadLeft() {
+    return buttonValues.getValue(ButtonValues.dpadLeft);
+  }
+  
+  public boolean dpadRight() {
+    return buttonValues.getValue(ButtonValues.dpadRight);
   }
   
 }

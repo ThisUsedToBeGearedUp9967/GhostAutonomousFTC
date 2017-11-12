@@ -7,7 +7,7 @@ This project contains a class both for recording your drive and for simulating a
 
 ## Getting data to computer
 
-When the opmode stops, you need to somehow get the file to your computer to make an opmode out of it. This project contains a class, called CodeSharer, that opens up a share dialog. What I did whas download an app called Simple Notepad onto the robot controller phone, and then you can share the file to that app and it will save it to external storage where you can access it from a computer. Then, you just need to put the string in the GhostController constructor and it will exactly copy your movements. You could also share it with email, sms, or snapchat, but then you would have to turn off wifi direct.
+When the opmode stops, you need to somehow get the file to your computer to make an opmode out of it. This project contains a class, called CodeSharer, that opens up a share dialog. What you can do is download an app called Simple Notepad onto the robot controller phone, and then you can share the file to that app and it will save it to external storage where you can access it from a computer. Then, you just need to put the string in the GhostController constructor and it will exactly copy your movements. You could also share it with email, sms, or snapchat, but then you would have to turn off wifi direct.
 
 ## How to use it
 
@@ -22,10 +22,18 @@ To create a recording opmode:
       }
       
       public void loop() {
-        ghostRecorder.recordLStickY(gamepad1.left_stick_y);
-        ghostRecorder.recordRStickY(gamepad1.right_stick_y);
-        ghostRecorder.recordLStickX(gamepad1.left_stick_x);
-        ghostRecorder.recordRStickX(gamepad1.right_stick_x);
+      
+        //only record values you are using to control robot
+        ghostRecorder.recordLeftStickY(gamepad1.left_stick_y);
+        ghostRecorder.recordRightStickY(gamepad1.right_stick_y);
+        ghostRecorder.recordLeftStickX(gamepad1.left_stick_x);
+        ghostRecorder.recordRightStickX(gamepad1.right_stick_x);
+        
+        ghostRecoreder.recordButtonA(gamepad1.x);
+        //and B,X or Y
+        
+        ghostRecorder.recordDpadDown(gamepad1.dpad_down);
+        //and Up,Left or Right
         
         //code to drive robot
         //...
@@ -37,8 +45,7 @@ To create a recording opmode:
         codeSharer.share(ghostRecorder.getString());
       }
     }
-    
-This code is not yet capable of recording the buttons and bumpers, but I am working on it.
+
 
 
 To create a Autonomous opmode from the recorded data:
@@ -54,10 +61,17 @@ To create a Autonomous opmode from the recorded data:
         ghostController.update(); //must include this at top
         
         //you can pretty much use ghostController as a regualar controller
-        //instead of gamepad1.left_stick_x use ghostController.getLStickX()
-        //           gamepad1.left_stick_y     ghostController.getLStickY()
-        //           gamepad1.right_stick_x    ghostController.getRStickX()
-        //           gamepad1.right_stick_y    ghostController.getRStickY()
+        //instead of gamepad1.left_stick_x use ghostController.getLeftStickX();
+        //           gamepad1.left_stick_y  == ghostController.getLeftStickY();
+        //           gamepad1.right_stick_x == ghostController.getRightStickX();
+        //           gamepad1.right_stick_y == ghostController.getRightStickY();
+        //
+        //           gamepad1.x             == ghostController.getButtonX();
+        //           gamepad1.a             == ghostController.getButtonA();
+        //           etc.
+        //
+        //           gamepad1.dpad_up       == ghostController.getDpadUp();
+        //           and so on...
         
         
       }

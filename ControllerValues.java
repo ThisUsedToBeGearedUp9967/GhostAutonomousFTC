@@ -1,61 +1,63 @@
-class ControllerValues {
+public class ControllerValues<T> {
   
-  public final static String leftStickY="ly";
-  public final static String rightStickY="ry";
-  public final static String leftStickX="lx";
-  public final static String rightStickX="rx";
- 
-  private double[] values={0,0,0,0};
-  private double[] previousValues={0,0,0,0};
-  private String[] stickSymbols={leftStickY,rightStickY,leftStickX,rightStickX}; 
+  private T defaultValue;
+  private ArrayList<T> values;
+  private ArrayList<T> previousValues;
+  private ArrayList<String> symbols;
   
-  public boolean isStick(String symbol) {
-    for(int i=0;i<stickSymbols.length;i++)
-    {
-      if(symbol==stickSymbols[i])
-      {
-        return true;
-      }
-    }
-    return false;
+  
+  public ControllerValues(T defaultVal,ArrayList<T> vals,ArrayList<String> syms) {
+    defaultValue=defaultVal;
+    values=new ArrayList<T>(vals);
+    previousValues=new ArrayList<T>(vals);
+    symbols=syms;
+    
   }
   
   
-  public void setStickValue(String symbol,double value) {
-    for(int i=0;i<stickSymbols.length;i++)
+  public void setValue(String symbol,T value) {
+    for(int i=0;i<symbols.size();i++)
     {
-      if(symbol.equals(stickSymbols[i]))
+      if(symbol.equals(symbols.get(i)))
       {
         
-        values[i]=value;
+        values.set(i,value);
       }
     }
   }
   
-  public double getStickValue(String symbol) {
-    double val=0;
-    for(int i=0;i<stickSymbols.length;i++)
+  public T getValue(String symbol) {
+    T val=defaultValue;
+    for(int i=0;i<symbols.size();i++)
     {
-      if(symbol.equals(stickSymbols[i]))
+      if(symbol.equals(symbols.get(i)))
       {
-        val=values[i];
+        val=values.get(i);
       }
     }
-    previousValues=values.clone();
+    previousValues=new ArrayList<T>(values);
     return val;
   }
-  
+
   public ArrayList<String> getSymbolsOfChanged() {
+    
     ArrayList<String> syms=new ArrayList<String>();
-    for(int i=0;i<values.length;i++)
+    for(int i=0;i<values.size();i++)
     {
-      if(previousValues[i]!=values[i])
+      if(!previousValues.get(i).equals(values.get(i)))
       {
         
-        syms.add(stickSymbols[i]);
+        syms.add(symbols.get(i));
       }
     }
     return syms;
   }
   
+  public void reset() {
+    for(int i=0;i<values.size();i++)
+    {
+      values.set(i,defaultValue);
+    }
+  }
 }
+
